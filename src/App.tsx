@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Buffer } from "buffer";
 import toOpcode from "./utils";
+import { u } from "@cityofzion/neon-js";
 
 window.Buffer = Buffer;
 
@@ -9,7 +10,10 @@ function App() {
   const [input2, setInput2] = useState("");
 
   const output1 = useMemo(() => {
-    return Buffer.from(input1).toString("hex");
+    if (!input1) {
+      return "";
+    }
+    return u.sha256(Buffer.from(input1).toString("hex"));
   }, [input1]);
 
   const output2 = useMemo(() => {
