@@ -10,9 +10,7 @@ function App() {
   const [input2, setInput2] = useState("");
 
   const output1 = useMemo(() => {
-    const parameterHexString = Buffer.from(input1).toString("hex");
-    const lengthHex = u.num2VarInt(parameterHexString.length / 2);
-    return lengthHex + parameterHexString;
+    return Buffer.from(input1).toString("hex");
   }, [input1]);
 
   const output2 = useMemo(() => {
