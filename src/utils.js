@@ -1,9 +1,9 @@
 import BigNumber from "bignumber.js";
-import Neon from "@cityofzion/neon-js";
+import Neon, { u } from "@cityofzion/neon-js";
 
 function _base64ToArrayBuffer(base64) {
   var binary_string = window.atob(base64);
-  console.log(binary_string);
+  // console.log(binary_string);
   // var binary_string =  atob(base64);
   // console.log(binary_string)
   var len = binary_string.length;
@@ -86,8 +86,8 @@ function toOpcode(b64) {
       "PUSHINT256",
       "6",
       "7",
-      "8",
-      "9",
+      "PUSHT",
+      "PUSHF",
       "PUSHA",
       "PUSHNULL",
       "PUSHDATA1",
@@ -243,8 +243,8 @@ function toOpcode(b64) {
       "MOD",
       "POW",
       "SQRT",
-      "165",
-      "166",
+      "MODMUL",
+      "MODPOW",
       "167",
       "SHL",
       "SHR",
@@ -268,8 +268,8 @@ function toOpcode(b64) {
       "WITHIN",
       "188",
       "189",
-      "190",
-      "191",
+      "PACKMAP",
+      "PACKSTRUCT",
       "PACK",
       "UNPACK",
       "NEWARRAY0",
@@ -302,8 +302,8 @@ function toOpcode(b64) {
       "221",
       "222",
       "223",
-      "224",
-      "225",
+      "ABORTMSG",
+      "ASSERTMSG",
       "226",
       "227",
       "228",
@@ -405,19 +405,19 @@ function toOpcode(b64) {
       }
       if (operandSizePrefix > 0) {
         let bytes = scripts.slice(0, operandSizePrefix);
-        // console.log(bytes)
+        // console.log(bytes);
         let number;
         if (bytes[0] != 20) {
           number = convertDecimal(bytes);
-          // console.log(number)
+          // console.log(number);
         } else {
           number = bytes[0];
-          // console.log(number)
+          // console.log(number);
         }
         scripts = scripts.slice(operandSizePrefix);
 
         let operand = scripts.slice(0, number);
-        // console.log(operand)
+        // console.log(operand);
         let flag = false;
         for (let k = 0; k < operand.length; k++) {
           if (operand[k] >= 48 && operand[k] <= 57) continue;
@@ -428,11 +428,9 @@ function toOpcode(b64) {
           }
         }
         if (flag) {
-          temp_result += op + " " + b64ToHex(operand);
-          // console.log(temp_result)
+          temp_result += `${op} 0x${u.reverseHex(b64ToHex(operand))}`;
         } else {
           temp_result += op + " " + bin2String(operand);
-          // console.log(temp_result)
         }
         result.push(temp_result);
         scripts = scripts.slice(number);
