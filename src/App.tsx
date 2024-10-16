@@ -22,6 +22,9 @@ function App() {
     if (isJSON(input)) {
       input = JSON.parse(input)?.script ?? "";
     }
+    if (u.isHex(input)) {
+      input = u.hex2base64(input);
+    }
     return toOpcode(input);
   }, [input2]);
 
@@ -33,8 +36,11 @@ function App() {
     if (isJSON(input)) {
       input = JSON.parse(input)?.script ?? "";
     }
-    input = u.base642hex(input);
-    return u.sha256(input).toUpperCase();
+    if (u.isHex(input)) {
+      return u.sha256(input).toUpperCase();
+    } else {
+      return u.sha256(u.base642hex(input)).toUpperCase();
+    }
   }, [input2]);
 
   return (
@@ -49,7 +55,7 @@ function App() {
       <h5>Output:</h5>
       <div style={{ wordBreak: "break-all" }}>{output1}</div>
       <h3 style={{ marginTop: "50px" }}>Script analysis</h3>
-      <h5>Input(JSON/Base64):</h5>
+      <h5>Input:</h5>
       <textarea
         value={input2}
         onChange={(e) => setInput2(e.target.value)}
