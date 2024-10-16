@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { u } from "@cityofzion/neon-js";
 import { Buffer } from "buffer";
 import toOpcode from "./utils";
 
@@ -18,23 +17,24 @@ function App() {
   }, [input2]);
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <div>Input:</div>
       <textarea
         value={input1}
         onChange={(e) => setInput1(e.target.value)}
-        style={{ width: "80%", height: "200px" }}
+        style={{ width: "100%", height: "200px" }}
       ></textarea>
       <div>Output:</div>
-      <div>{output1}</div>
-      <div>Input:</div>
+      <div style={{ wordBreak: "break-all" }}>{output1}</div>
+      <div style={{ marginTop: "50px" }}>Input:</div>
       <textarea
         value={input2}
         onChange={(e) => setInput2(e.target.value)}
-        style={{ width: "80%", height: "200px" }}
+        style={{ width: "100%", height: "200px" }}
       ></textarea>
       <div>Output:</div>
       <div
+        style={{ wordBreak: "break-all" }}
         dangerouslySetInnerHTML={{
           __html: output2 as any,
         }}
