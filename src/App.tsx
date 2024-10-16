@@ -1,24 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useMemo, useState } from "react";
+import { u } from "@cityofzion/neon-js";
+import { Buffer } from "buffer";
+import toOpcode from "./utils";
+
+window.Buffer = Buffer;
 
 function App() {
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+
+  const output1 = useMemo(() => {
+    const parameterHexString = Buffer.from(input1).toString("hex");
+    const lengthHex = u.num2VarInt(parameterHexString.length / 2);
+    return lengthHex + parameterHexString;
+  }, [input1]);
+
+  const output2 = useMemo(() => {
+    return toOpcode(input2);
+  }, [input2]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>Input:</div>
+      <textarea
+        value={input1}
+        onChange={(e) => setInput1(e.target.value)}
+        style={{ width: "80%", height: "200px" }}
+      ></textarea>
+      <div>Output:</div>
+      <div>{output1}</div>
+      <div>Input:</div>
+      <textarea
+        value={input2}
+        onChange={(e) => setInput2(e.target.value)}
+        style={{ width: "80%", height: "200px" }}
+      ></textarea>
+      <div>Output:</div>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: output2 as any,
+        }}
+      ></div>
     </div>
   );
 }
