@@ -3,35 +3,33 @@
 
 name: Node.js CI
 
-
 on:
   push:
-    branches: [ "local" ]
+    branches: ["local"]
   pull_request:
-    branches: [ "local" ]
+    branches: ["local"]
   workflow_dispatch:
     inputs:
       logLevel:
-        description: 'Log level'
+        description: "Log level"
         required: true
-        default: 'warning'
+        default: "warning"
         type: choice
         options:
-        - info
-        - warning
-        - debug
+          - info
+          - warning
+          - debug
       tags:
-        description: 'Test scenario tags'
+        description: "Test scenario tags"
         required: false
         type: boolean
       environment:
-        description: 'Environment to run tests against'
+        description: "Environment to run tests against"
         type: environment
         required: true
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -40,21 +38,19 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: local
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: DISABLE_ESLINT_PLUGIN=true npm run build 
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v4
-      with:
+      - uses: actions/checkout@v4
+        with:
+          ref: local
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm install
+      - run: DISABLE_ESLINT_PLUGIN=true npm run build
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
           name: build
           path: |
             build
-
