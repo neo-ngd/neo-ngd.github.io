@@ -377,7 +377,7 @@ function toOpcode(b64) {
     //  let temp = a[k]
     //}
 
-    let result = new Array();
+    let result = [];
     while (scripts.length > 0) {
       let temp_result = "";
       let op = opcodes[scripts[0]];
@@ -394,7 +394,7 @@ function toOpcode(b64) {
         if (op.startsWith("PUSHINT")) {
           temp_result += op + " " + convertDecimal(operand);
           result.push(temp_result);
-        } else if (op == "SYSCALL") {
+        } else if (op === "SYSCALL") {
           temp_result += op + " " + dic.get(convertDecimal(operand));
           result.push(temp_result);
         } else {
@@ -407,7 +407,7 @@ function toOpcode(b64) {
         let bytes = scripts.slice(0, operandSizePrefix);
         // console.log(bytes);
         let number;
-        if (bytes[0] != 20) {
+        if (bytes[0] !== 20) {
           number = convertDecimal(bytes);
           // console.log(number);
         } else {
@@ -436,7 +436,7 @@ function toOpcode(b64) {
         scripts = scripts.slice(number);
         // console.log(scripts)
       }
-      if (operandSizePrefix == 0 && operandSize == 0) result.push(op);
+      if (operandSizePrefix === 0 && operandSize === 0) result.push(op);
     }
     res = result.join("<br>");
     return [result, res];
