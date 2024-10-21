@@ -5,8 +5,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f3f4f6;
 }
 
 * {
   box-sizing: border-box;
+}
+
+h5 {
+  margin: 10px 0;
+}
+
+textarea {
+  border: 1px solid black;
+  padding: 6px;
+}
+
+.output {
+  word-break: break-all;
+  background-color: white;
+  min-height: 100px;
+  border: 1px solid black;
+  padding: 6px;
 }

@@ -439,10 +439,10 @@ function toOpcode(b64) {
       if (operandSizePrefix == 0 && operandSize == 0) result.push(op);
     }
     res = result.join("<br>");
-    return res;
+    return [result, res];
   } catch (err) {
     console.log(err);
-    return "";
+    return [[], ""];
   }
 }
 
